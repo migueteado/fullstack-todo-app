@@ -1,6 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Fullstack To-Do App
 
-## Getting Started
+# To-Do App Specifications
+
+## 1. User Authentication
+
+- **Sign Up:** Users should be able to create a new account using their email.
+- **Sign In:** Users should be able to sign in to their account.
+- **Sign Out:** Users should be able to sign out from their account.
+
+## 2. To-Do List Management
+
+- **Create:** Users should be able to create a new to-do list.
+- **Read:** Users should be able to view their created to-do lists.
+- **Update:** Users should be able to update the name or other details of their to-do lists.
+- **Delete:** Users should be able to delete their to-do lists.
+
+## 3. To-Do Item Management
+
+- **Create:** Users should be able to add new items to their to-do lists.
+- **Read:** Users should be able to view the items on their to-do lists.
+- **Update:** Users should be able to update the details of the items on their to-do lists. This includes marking items as complete.
+- **Delete:** Users should be able to delete items from their to-do lists.
+
+## 4. Prioritization
+
+- Users should be able to prioritize their to-do items, either through a simple high/medium/low system, or through a more complex system of their choosing.
+
+## 5. Due Dates
+
+- Users should be able to set due dates for individual to-do items.
+
+## 6. Notifications
+
+- Users should receive notifications when a due date is approaching.
+
+## 7. Search and Filter
+
+- Users should be able to search their to-do items and filter the view based on certain criteria (e.g., completed tasks, tasks due today).
+
+## 8. Data Persistence
+
+- The app should store user data persistently, so that information is not lost when the app is closed.
+
+## 9. User Interface
+
+- The app should have a clean, intuitive user interface that makes it easy to interact with.
+
+## 10. Accessibility
+
+- The app should be accessible, following best practices for accessibility.
+
+## 11. Security
+
+- User data should be stored securely, with sensitive information like passwords properly hashed.
+
+# Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 First, run the development server:
 
@@ -17,18 +73,3 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
