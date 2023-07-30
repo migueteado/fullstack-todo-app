@@ -27,6 +27,8 @@ model ToDoList {
   items     ToDoItem[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@unique([userId, title])
 }
 
 model ToDoItem {
@@ -39,6 +41,8 @@ model ToDoItem {
   list      ToDoList  @relation(fields: [listId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@unique([listId, content])
 }
 
 enum Priority {

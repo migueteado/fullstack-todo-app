@@ -51,3 +51,20 @@
 ## 11. Security
 
 - User data should be stored securely, with sensitive information like passwords properly hashed.
+
+# Feature Table
+
+| Feature                    | Backend | Backend Test | Frontend | Frontend Test |
+| -------------------------- | ------- | ------------ | -------- | ------------- |
+| Sign Up                    | ✅      | ❌           | ❌       | ❌            |
+| Sign In                    | ✅      | ❌           | ❌       | ❌            |
+| Sign Out                   | ✅      | ❌           | ❌       | ❌            |
+| Read To Do List (Many)     | ✅      | ❌           | ❌       | ❌            |
+| Read To Do List (Single)   | ✅      | ❌           | ❌       | ❌            |
+| Create To Do List          | ✅      | ❌           | ❌       | ❌            |
+| Update To Do List          | ✅      | ❌           | ❌       | ❌            |
+| Delete To Do List          | ✅      | ❌           | ❌       | ❌            |
+| Read To Do List with Items | ✅      | ❌           | ❌       | ❌            |
+| Create To Do Item          | ✅      | ❌           | ❌       | ❌            |
+| Update To Do Item          | ✅      | ❌           | ❌       | ❌            |
+| Delete To Do Item          | ✅      | ❌           | ❌       | ❌            |

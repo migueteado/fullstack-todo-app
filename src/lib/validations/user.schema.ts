@@ -41,5 +41,12 @@ export const LoginUserSchema = z.object({
     .min(8, "Password must be at least 8 characters"),
 });
 
+export const DeleteUserSchema = z.object({
+  id: z.string({
+    required_error: "Id is required",
+  }),
+});
+
 export type LoginUserInput = z.infer<typeof LoginUserSchema>;
 export type RegisterUserInput = z.infer<typeof RegisterUserSchema>;
+export type DeleteUserInput = z.infer<typeof DeleteUserSchema>;

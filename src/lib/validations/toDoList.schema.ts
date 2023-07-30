@@ -9,6 +9,9 @@ export const CreateToDoListSchema = z.object({
 });
 
 export const UpdateToDoListSchema = z.object({
+  id: z.string({
+    required_error: "Id is required",
+  }),
   title: z
     .string({
       required_error: "Title is required",

@@ -6,9 +6,21 @@ export const CreateToDoItemSchema = z.object({
       required_error: "Content is required",
     })
     .min(3, "Content is required"),
+  priority: z.string({
+    invalid_type_error: "Priority must be a string",
+  }),
+  listId: z.string({
+    required_error: "listId is required",
+  }),
+  dueDate: z
+    .string()
+    .datetime({ message: "Invalid datetime string! Must be UTC." }),
 });
 
 export const UpdateToDoItemSchema = z.object({
+  id: z.string({
+    required_error: "Id is required",
+  }),
   content: z
     .string({
       invalid_type_error: "Content must be a string",
@@ -20,11 +32,20 @@ export const UpdateToDoItemSchema = z.object({
   priority: z.string({
     invalid_type_error: "Priority must be a string",
   }),
+  listId: z.string({
+    required_error: "listId is required",
+  }),
+  dueDate: z
+    .string()
+    .datetime({ message: "Invalid datetime string! Must be UTC." }),
 });
 
 export const DeleteToDoItemSchema = z.object({
   id: z.string({
     required_error: "Id is required",
+  }),
+  listId: z.string({
+    required_error: "listId is required",
   }),
 });
 

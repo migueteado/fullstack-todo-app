@@ -17,14 +17,14 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const todos = await prisma.toDoList.findMany({
+  const toDoLists = await prisma.toDoList.findMany({
     where: { userId: userId },
     include: { items: true },
   });
 
   return NextResponse.json({
     status: "success",
-    data: { todos: todos },
+    data: { toDoLists },
   });
 }
 
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (error.code === "P2002") {
-      return getErrorResponse(409, "user with that email already exists");
+      return getErrorResponse(409, "list with that title already exists");
     }
 
     return getErrorResponse(500, error.message);

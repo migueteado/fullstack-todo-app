@@ -19,3 +19,21 @@ export async function GET(req: NextRequest) {
     data: { user: { ...user, password: undefined } },
   });
 }
+
+export async function DELETE(req: NextRequest) {
+  const userId = req.headers.get("X-USER-ID");
+
+  if (!userId) {
+    return getErrorResponse(
+      401,
+      "You are not logged in, please provide token to gain access."
+    );
+  }
+
+  const deleteUser = await prisma.user.delete({ where: { id: userId } });
+
+  return NextResponse.json({
+    status: "success",
+    data: { user: { ...deleteUser, password: undefined } },
+  });
+}
