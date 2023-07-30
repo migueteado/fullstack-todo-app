@@ -15,3 +15,13 @@ export const UpdateToDoListSchema = z.object({
     })
     .min(3, "Title is required"),
 });
+
+export const DeleteToDoListSchema = z.object({
+  id: z.string({
+    required_error: "Id is required",
+  }),
+});
+
+export type CreateToDoListInput = z.infer<typeof CreateToDoListSchema>;
+export type UpdateToDoListInput = z.infer<typeof UpdateToDoListSchema>;
+export type DeleteToDoListInput = z.infer<typeof DeleteToDoListSchema>;
