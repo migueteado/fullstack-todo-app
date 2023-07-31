@@ -8,6 +8,7 @@ import {
   UpdateToDoItemSchema,
 } from "@/lib/validations/toDoItem.schema";
 import {
+  DeleteToDoListSchema,
   UpdateToDoListInput,
   UpdateToDoListSchema,
 } from "@/lib/validations/toDoList.schema";
@@ -223,19 +224,39 @@ export async function DELETE(
   }
 
   try {
-    const data = DeleteToDoItemSchema.parse({ id: itemId, listId: listId });
+    if (itemId) {
+      const data = DeleteToDoItemSchema.parse({ id: itemId, listId: listId });
 
-    const deleteToDoItem = await prisma.toDoItem.delete({
-      where: data,
-    });
+      const deleteToDoItem = await prisma.toDoItem.delete({
+        where: data,
+      });
 
-    return NextResponse.json({
-      status: "success",
-      data: { deleteToDoItem },
-    });
+      return NextResponse.json({
+        status: "success",
+        data: { deleteToDoItem },
+      });
+    } else {
+      const data = DeleteToDoListSchema.parse({ id: listId });
+
+      const deleteToDoList = await prisma.toDoList.delete({
+        where: data,
+      });
+
+      return NextResponse.json({
+        status: "success",
+        data: { deleteToDoList },
+      });
+    }
   } catch (error: any) {
     if (error instanceof ZodError) {
       return getErrorResponse(400, "failed validations", error);
+    }
+
+    if (error.code === "P2025") {
+      return getErrorResponse(
+        404,
+        "No list or item with the provided Id found."
+      );
     }
 
     return getErrorResponse(500, error.message);

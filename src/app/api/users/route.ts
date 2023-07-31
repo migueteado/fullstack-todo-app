@@ -1,6 +1,7 @@
 import { getErrorResponse } from "@/lib/helpers";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
 
 export async function GET(req: NextRequest) {
   const userId = req.headers.get("X-USER-ID");
@@ -29,11 +30,18 @@ export async function DELETE(req: NextRequest) {
       "You are not logged in, please provide token to gain access."
     );
   }
+  try {
+    const deleteUser = await prisma.user.delete({ where: { id: userId } });
 
-  const deleteUser = await prisma.user.delete({ where: { id: userId } });
+    return NextResponse.json({
+      status: "success",
+      data: { deleteUser: { ...deleteUser, password: undefined } },
+    });
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      return getErrorResponse(404, "No user with the provided Id found.");
+    }
 
-  return NextResponse.json({
-    status: "success",
-    data: { user: { ...deleteUser, password: undefined } },
-  });
+    return getErrorResponse(500, error.message);
+  }
 }
