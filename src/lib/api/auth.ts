@@ -1,6 +1,13 @@
-import { UserLoginResponse, UserObject, UserResponse } from "../types";
+import {
+  ErrorResponse,
+  UserDeleteResponse,
+  UserLoginResponse,
+  UserRegisterResponse,
+} from "../types";
 import { LoginUserInput, RegisterUserInput } from "../validations/user.schema";
 import { SERVER_ENDPOINT } from "./config";
+import { handleError } from "./handleError";
+import { handleResponse } from "./handleResponse";
 
 interface ApiRegisterUserArgs {
   data: RegisterUserInput;
@@ -8,7 +15,7 @@ interface ApiRegisterUserArgs {
 
 export async function apiRegisterUser({
   data,
-}: ApiRegisterUserArgs): Promise<UserObject> {
+}: ApiRegisterUserArgs): Promise<UserRegisterResponse | ErrorResponse> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/register`, {
     method: "POST",
     credentials: "include",
@@ -18,7 +25,9 @@ export async function apiRegisterUser({
     body: JSON.stringify(data),
   });
 
-  return handleResponse<UserResponse>(response).then((data) => data.data.user);
+  return handleResponse<UserRegisterResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiLoginUserArgs {
@@ -27,7 +36,7 @@ interface ApiLoginUserArgs {
 
 export async function apiLoginUser({
   data,
-}: ApiLoginUserArgs): Promise<string> {
+}: ApiLoginUserArgs): Promise<string | ErrorResponse> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/login`, {
     method: "POST",
     credentials: "include",
@@ -37,10 +46,14 @@ export async function apiLoginUser({
     body: JSON.stringify(data),
   });
 
-  return handleResponse<UserLoginResponse>(response).then((data) => data.token);
+  return handleResponse<UserLoginResponse>(response)
+    .then((data) => data.token)
+    .catch(handleError);
 }
 
-export async function apiLogoutUser(): Promise<void> {
+export async function apiLogoutUser(): Promise<
+  UserDeleteResponse | ErrorResponse
+> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/logout`, {
     method: "GET",
     credentials: "include",
@@ -49,5 +62,7 @@ export async function apiLogoutUser(): Promise<void> {
     },
   });
 
-  return handleResponse<void>(response);
+  return handleResponse<UserDeleteResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }

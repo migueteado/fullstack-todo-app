@@ -1,13 +1,15 @@
 import {
+  ErrorResponse,
   RequiresAuth,
   ToDoListCreateResponse,
   ToDoListDeleteResponse,
   ToDoListManyResponse,
-  ToDoListObject,
   ToDoListResponse,
   ToDoListUpdateResponse,
 } from "../types";
 import { SERVER_ENDPOINT } from "./config";
+import { handleError } from "./handleError";
+import { handleResponse } from "./handleResponse";
 
 interface ApiGetToDoListArgs extends RequiresAuth {
   data: {
@@ -18,7 +20,7 @@ interface ApiGetToDoListArgs extends RequiresAuth {
 export async function apiGetToDoList({
   data,
   token,
-}: ApiGetToDoListArgs): Promise<ToDoListObject> {
+}: ApiGetToDoListArgs): Promise<ToDoListResponse | ErrorResponse> {
   const { id } = data;
 
   const headers: Record<string, string> = {
@@ -35,16 +37,16 @@ export async function apiGetToDoList({
     headers,
   });
 
-  return handleResponse<ToDoListResponse>(response).then(
-    (data) => data.data.toDoList
-  );
+  return handleResponse<ToDoListResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiGetToDoListsArgs extends RequiresAuth {}
 
 export async function apiGetToDoLists({
   token,
-}: ApiGetToDoListsArgs): Promise<ToDoListObject[]> {
+}: ApiGetToDoListsArgs): Promise<ToDoListManyResponse | ErrorResponse> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -59,9 +61,9 @@ export async function apiGetToDoLists({
     headers,
   });
 
-  return handleResponse<ToDoListManyResponse>(response).then(
-    (data) => data.data.toDoLists
-  );
+  return handleResponse<ToDoListManyResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiCreateToDoListArgs extends RequiresAuth {
@@ -73,7 +75,7 @@ interface ApiCreateToDoListArgs extends RequiresAuth {
 export async function apiCreateToDoList({
   data,
   token,
-}: ApiCreateToDoListArgs): Promise<ToDoListObject> {
+}: ApiCreateToDoListArgs): Promise<ToDoListCreateResponse | ErrorResponse> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -89,9 +91,9 @@ export async function apiCreateToDoList({
     body: JSON.stringify(data),
   });
 
-  return handleResponse<ToDoListCreateResponse>(response).then(
-    (data) => data.data.toDoList
-  );
+  return handleResponse<ToDoListCreateResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiUpdateToDoListArgs extends RequiresAuth {
@@ -104,7 +106,7 @@ interface ApiUpdateToDoListArgs extends RequiresAuth {
 export async function apiUpdateToDoList({
   data,
   token,
-}: ApiUpdateToDoListArgs): Promise<ToDoListObject> {
+}: ApiUpdateToDoListArgs): Promise<ToDoListUpdateResponse | ErrorResponse> {
   const { id, ...rest } = data;
 
   const headers: Record<string, string> = {
@@ -122,9 +124,9 @@ export async function apiUpdateToDoList({
     body: JSON.stringify(rest),
   });
 
-  return handleResponse<ToDoListUpdateResponse>(response).then(
-    (data) => data.data.toDoList
-  );
+  return handleResponse<ToDoListUpdateResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiDeleteToDoListArgs extends RequiresAuth {
@@ -136,7 +138,7 @@ interface ApiDeleteToDoListArgs extends RequiresAuth {
 export async function apiDeleteToDoList({
   data,
   token,
-}: ApiDeleteToDoListArgs): Promise<ToDoListObject> {
+}: ApiDeleteToDoListArgs): Promise<ToDoListDeleteResponse | ErrorResponse> {
   const { id } = data;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -152,7 +154,7 @@ export async function apiDeleteToDoList({
     headers,
   });
 
-  return handleResponse<ToDoListDeleteResponse>(response).then(
-    (data) => data.data.deleteToDoList
-  );
+  return handleResponse<ToDoListDeleteResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }

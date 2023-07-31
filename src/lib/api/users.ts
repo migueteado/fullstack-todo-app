@@ -1,7 +1,11 @@
-import { UserDeleteResponse, UserObject, UserResponse } from "../types";
+import { ErrorResponse, UserDeleteResponse, UserResponse } from "../types";
 import { SERVER_ENDPOINT } from "./config";
+import { handleError } from "./handleError";
+import { handleResponse } from "./handleResponse";
 
-export async function apiGetAuthUser(token?: string): Promise<UserObject> {
+export async function apiGetAuthUser(
+  token?: string
+): Promise<UserResponse | ErrorResponse> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -16,10 +20,14 @@ export async function apiGetAuthUser(token?: string): Promise<UserObject> {
     headers,
   });
 
-  return handleResponse<UserResponse>(response).then((data) => data.data.user);
+  return handleResponse<UserResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
-export async function apiDeleteAuthUser(token?: string): Promise<UserObject> {
+export async function apiDeleteAuthUser(
+  token?: string
+): Promise<UserDeleteResponse | ErrorResponse> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -34,7 +42,7 @@ export async function apiDeleteAuthUser(token?: string): Promise<UserObject> {
     headers,
   });
 
-  return handleResponse<UserDeleteResponse>(response).then(
-    (data) => data.data.deleteUser
-  );
+  return handleResponse<UserDeleteResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }

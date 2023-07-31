@@ -1,11 +1,14 @@
 import { ToDoItem } from "@prisma/client";
 import {
+  ErrorResponse,
   RequiresAuth,
   ToDoItemCreateResponse,
   ToDoItemDeleteResponse,
   ToDoItemUpdateResponse,
 } from "../types";
 import { SERVER_ENDPOINT } from "./config";
+import { handleResponse } from "./handleResponse";
+import { handleError } from "./handleError";
 
 interface ApiCreateToDoItemArgs extends RequiresAuth {
   data: Omit<ToDoItem, "id" | "createdAt" | "updatedAt">;
@@ -14,7 +17,7 @@ interface ApiCreateToDoItemArgs extends RequiresAuth {
 export async function apiCreateToDoItem({
   data,
   token,
-}: ApiCreateToDoItemArgs): Promise<ToDoItem> {
+}: ApiCreateToDoItemArgs): Promise<ToDoItemCreateResponse | ErrorResponse> {
   const { listId, ...rest } = data;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -31,9 +34,9 @@ export async function apiCreateToDoItem({
     body: JSON.stringify(rest),
   });
 
-  return handleResponse<ToDoItemCreateResponse>(response).then(
-    (data) => data.data.toDoItem
-  );
+  return handleResponse<ToDoItemCreateResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiUpdateToDoItemArgs extends RequiresAuth {
@@ -43,7 +46,7 @@ interface ApiUpdateToDoItemArgs extends RequiresAuth {
 export async function apiUpdateToDoItem({
   data,
   token,
-}: ApiUpdateToDoItemArgs): Promise<ToDoItem> {
+}: ApiUpdateToDoItemArgs): Promise<ToDoItemUpdateResponse | ErrorResponse> {
   const { id, listId, ...rest } = data;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -60,9 +63,9 @@ export async function apiUpdateToDoItem({
     body: JSON.stringify(rest),
   });
 
-  return handleResponse<ToDoItemUpdateResponse>(response).then(
-    (data) => data.data.toDoItem
-  );
+  return handleResponse<ToDoItemUpdateResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }
 
 interface ApiDeleteToDoItemArgs extends RequiresAuth {
@@ -72,7 +75,7 @@ interface ApiDeleteToDoItemArgs extends RequiresAuth {
 export async function apiDeleteToDoItem({
   data,
   token,
-}: ApiDeleteToDoItemArgs): Promise<ToDoItem> {
+}: ApiDeleteToDoItemArgs): Promise<ToDoItemDeleteResponse | ErrorResponse> {
   const { listId, id } = data;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -88,7 +91,7 @@ export async function apiDeleteToDoItem({
     headers,
   });
 
-  return handleResponse<ToDoItemDeleteResponse>(response).then(
-    (data) => data.data.deleteToDoItem
-  );
+  return handleResponse<ToDoItemDeleteResponse>(response)
+    .then((data) => data)
+    .catch(handleError);
 }

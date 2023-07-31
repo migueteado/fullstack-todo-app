@@ -4,6 +4,11 @@ export interface RequiresAuth {
   token?: string;
 }
 
+export interface ErrorResponse {
+  status: string;
+  message: string;
+}
+
 export interface UserObject extends Omit<User, "password"> {}
 export interface UserResponse {
   status: string;
