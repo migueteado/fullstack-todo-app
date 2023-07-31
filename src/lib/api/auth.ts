@@ -1,29 +1,40 @@
 import { UserLoginResponse, UserObject, UserResponse } from "../types";
+import { LoginUserInput, RegisterUserInput } from "../validations/user.schema";
 import { SERVER_ENDPOINT } from "./config";
 
-export async function apiRegisterUser(
-  credentials: string
-): Promise<UserObject> {
+interface ApiRegisterUserArgs {
+  data: RegisterUserInput;
+}
+
+export async function apiRegisterUser({
+  data,
+}: ApiRegisterUserArgs): Promise<UserObject> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/register`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: credentials,
+    body: JSON.stringify(data),
   });
 
   return handleResponse<UserResponse>(response).then((data) => data.data.user);
 }
 
-export async function apiLoginUser(credentials: string): Promise<string> {
+interface ApiLoginUserArgs {
+  data: LoginUserInput;
+}
+
+export async function apiLoginUser({
+  data,
+}: ApiLoginUserArgs): Promise<string> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/login`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: credentials,
+    body: JSON.stringify(data),
   });
 
   return handleResponse<UserLoginResponse>(response).then((data) => data.token);

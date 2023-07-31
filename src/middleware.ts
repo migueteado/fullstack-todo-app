@@ -24,6 +24,7 @@ export async function middleware(req: NextRequest) {
   if (
     !token &&
     (req.nextUrl.pathname.startsWith("/api/users") ||
+      req.nextUrl.pathname.startsWith("/api/todos") ||
       req.nextUrl.pathname.startsWith("/api/auth/logout"))
   ) {
     return getErrorResponse(
@@ -76,8 +77,8 @@ export const config = {
   matcher: [
     "/profile",
     "/login",
-    "/api/users/:path*",
-    "/api/todos/:path*",
     "/api/auth/logout",
+    "/api/todos/:path*",
+    "/api/users/:path*",
   ],
 };
