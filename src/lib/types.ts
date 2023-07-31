@@ -1,7 +1,10 @@
-import { Priority, User, ToDoList, ToDoItem } from "@prisma/client";
+import { User, ToDoList, ToDoItem } from "@prisma/client";
+
+export interface RequiresAuth {
+  token?: string;
+}
 
 export interface UserObject extends Omit<User, "password"> {}
-
 export interface UserResponse {
   status: string;
   data: {
@@ -40,6 +43,13 @@ export interface ToDoListResponse {
   status: string;
   data: {
     toDoList: ToDoListObject;
+  };
+}
+
+export interface ToDoListManyResponse {
+  status: string;
+  data: {
+    toDoLists: ToDoListObject[];
   };
 }
 

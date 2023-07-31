@@ -1,7 +1,7 @@
 import { UserDeleteResponse, UserObject, UserResponse } from "../types";
 import { SERVER_ENDPOINT } from "./config";
 
-export async function apiGetUser(token?: string): Promise<UserObject> {
+export async function apiGetAuthUser(token?: string): Promise<UserObject> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -19,7 +19,7 @@ export async function apiGetUser(token?: string): Promise<UserObject> {
   return handleResponse<UserResponse>(response).then((data) => data.data.user);
 }
 
-export async function apiDeleteUser(token?: string): Promise<UserObject> {
+export async function apiDeleteAuthUser(token?: string): Promise<UserObject> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
