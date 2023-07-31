@@ -36,7 +36,7 @@ export interface UserDeleteResponse {
 }
 
 export interface ToDoListObject extends ToDoList {
-  items: ToDoItemObject[];
+  items: ToDoItem[];
 }
 
 export interface ToDoListResponse {
@@ -74,25 +74,23 @@ export interface ToDoListDeleteResponse {
   };
 }
 
-export interface ToDoItemObject extends ToDoItem {}
-
 export interface ToDoItemCreateResponse {
   status: string;
   data: {
-    toDoItem: ToDoItemObject;
+    toDoItem: ToDoItem;
   };
 }
 
 export interface ToDoItemUpdateResponse {
   status: string;
   data: {
-    toDoItem: ToDoItemObject;
+    toDoItem: ToDoItem;
   };
 }
 
 export interface ToDoItemDeleteResponse {
   status: string;
   data: {
-    deleteToDoItem: ToDoItemObject;
+    deleteToDoItem: ToDoItem;
   };
 }
