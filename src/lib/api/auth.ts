@@ -36,7 +36,7 @@ interface ApiLoginUserArgs {
 
 export async function apiLoginUser({
   data,
-}: ApiLoginUserArgs): Promise<string | ErrorResponse> {
+}: ApiLoginUserArgs): Promise<UserLoginResponse | ErrorResponse> {
   const response = await fetch(`${SERVER_ENDPOINT}/api/auth/login`, {
     method: "POST",
     credentials: "include",
@@ -47,7 +47,7 @@ export async function apiLoginUser({
   });
 
   return handleResponse<UserLoginResponse>(response)
-    .then((data) => data.token)
+    .then((data) => data)
     .catch(handleError);
 }
 

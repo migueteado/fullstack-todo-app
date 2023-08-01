@@ -78,7 +78,7 @@
 }
 
 .container {
-  @apply min-h-screen max-w-6xl px-2 pt-12 pb-24 md:px-8 lg:px-12;
+  @apply min-h-screen max-w-4xl px-2 pt-24 pb-24 md:px-8 lg:px-12 flex flex-col items-center;
 }
 
 .page-title {

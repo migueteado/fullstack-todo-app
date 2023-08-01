@@ -18,7 +18,10 @@ export async function middleware(req: NextRequest) {
     token = req.headers.get("Authorization")?.substring(7);
   }
 
-  if (req.nextUrl.pathname.startsWith("/login") && (!token || redirectToLogin))
+  if (
+    req.nextUrl.pathname.startsWith("/auth/login") &&
+    (!token || redirectToLogin)
+  )
     return;
 
   if (
@@ -48,7 +51,10 @@ export async function middleware(req: NextRequest) {
     }
 
     return NextResponse.redirect(
-      new URL(`/login?${new URLSearchParams({ error: "badauth" })}`, req.url)
+      new URL(
+        `/auth/login?${new URLSearchParams({ error: "badauth" })}`,
+        req.url
+      )
     );
   }
 
@@ -57,7 +63,7 @@ export async function middleware(req: NextRequest) {
   if (!authUser) {
     return NextResponse.redirect(
       new URL(
-        `/login?${new URLSearchParams({
+        `/auth/login?${new URLSearchParams({
           error: "badauth",
           forceLogin: "true",
         })}`,
@@ -66,8 +72,8 @@ export async function middleware(req: NextRequest) {
     );
   }
 
-  if (req.url.includes("/login") && authUser) {
-    return NextResponse.redirect(new URL("/profile", req.url));
+  if (req.url.includes("/auth/login") && authUser) {
+    return NextResponse.redirect(new URL("/todos", req.url));
   }
 
   return response;

@@ -1,6 +1,6 @@
 "use client";
 
-import { RegisterUserSchema } from "@/lib/validations/user.schema";
+import { LoginUserSchema } from "@/lib/validations/user.schema";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,14 +16,14 @@ import {
 } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { apiRegisterUser } from "@/lib/api";
+import { apiLoginUser } from "@/lib/api";
 import { useToast } from "./ui/use-toast";
-import { ErrorResponse, UserRegisterResponse } from "@/lib/types";
+import { ErrorResponse } from "@/lib/types";
 import Link from "next/link";
 
-const formSchema = RegisterUserSchema;
+const formSchema = LoginUserSchema;
 
-export function RegisterForm() {
+export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,31 +31,20 @@ export function RegisterForm() {
     defaultValues: {
       email: "",
       password: "",
-      passwordConfirm: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await apiRegisterUser({ data: values });
+    const result = await apiLoginUser({ data: values });
 
     if (result.status === "success") {
-      toast({
-        title: "User registered!",
-        description: `User with email ${
-          (result as UserRegisterResponse).data.user.email
-        } has been succesfully created.`,
-      });
-      router.push("/auth/login");
+      router.push("/todos");
     } else {
       toast({
         title: "An error occured!",
         description: (result as ErrorResponse).message,
       });
     }
-  }
-
-  function redirectToLogin() {
-    router.push("/auth/login");
   }
 
   return (
@@ -93,25 +82,11 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="passwordConfirm"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormDescription>Passwords must match.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <div className="flex items-center justify-end w-full gap-4">
-          <Link href="/auth/login" className="text-sm">
-            Already have an account? Log in
+          <Link href="/auth/register" className="text-sm">
+            Don&apos;t have an account? Register
           </Link>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Login</Button>
         </div>
       </form>
     </Form>

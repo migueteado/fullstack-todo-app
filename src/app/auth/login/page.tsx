@@ -1,5 +1,18 @@
+"use client";
+
+import { Header } from "@/components/Header";
+import { LoginForm } from "@/components/LoginForm";
+
 export default function Login() {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-24"></main>
+    <>
+      <Header />
+      <main className="container">
+        <div className="w-full max-w-4xl">
+          <h1 className="page-title">Login</h1>
+          <LoginForm />
+        </div>
+      </main>
+    </>
   );
 }
