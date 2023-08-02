@@ -18,12 +18,14 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { apiLoginUser } from "@/lib/api";
 import { useToast } from "./ui/use-toast";
-import { ErrorResponse } from "@/lib/types";
+import { ErrorResponse, UserLoginResponse } from "@/lib/types";
 import Link from "next/link";
+import useStore from "@/store";
 
 const formSchema = LoginUserSchema;
 
 export function LoginForm() {
+  const store = useStore();
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,8 +38,9 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const result = await apiLoginUser({ data: values });
-
+    console.log(result);
     if (result.status === "success") {
+      store.setToken((result as UserLoginResponse).token);
       router.push("/todos");
     } else {
       toast({
