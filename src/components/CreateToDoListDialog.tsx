@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,11 +25,25 @@ import { CreateToDoListSchema } from "@/lib/validations/toDoList.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
+import { apiCreateToDoList } from "@/lib/api";
+import {
+  ErrorResponse,
+  ToDoListCreateResponse,
+  ToDoListObject,
+} from "@/lib/types";
+import { useState } from "react";
 
 const formSchema = CreateToDoListSchema;
 
-export function CreateToDoListDialog() {
+interface CreateToDoListDialogProps {
+  handleCreate: (toDoList: ToDoListObject) => void;
+}
+
+export function CreateToDoListDialog({
+  handleCreate,
+}: CreateToDoListDialogProps) {
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,10 +51,28 @@ export function CreateToDoListDialog() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {}
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const result = await apiCreateToDoList({ data: values });
+
+    if (result.status === "success") {
+      toast({
+        title: "To Do List created!",
+        description: `To Do List with title ${
+          (result as ToDoListCreateResponse).data.toDoList.title
+        } has been succesfully created.`,
+      });
+      handleCreate((result as ToDoListCreateResponse).data.toDoList);
+      setOpen(false);
+    } else {
+      toast({
+        title: "An error occured!",
+        description: (result as ErrorResponse).message,
+      });
+    }
+  }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
           <Plus className="w-4 h-4" />
