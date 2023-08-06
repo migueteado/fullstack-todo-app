@@ -20,19 +20,19 @@ import { apiDeleteToDoList } from "@/lib/api";
 import { ErrorResponse, ToDoListDeleteResponse } from "@/lib/types";
 
 interface DeleteToDoListAlertProps {
-  id: ToDoList["id"];
+  toDoList: ToDoList;
   handleDelete: (id: ToDoList["id"]) => void;
 }
 
 export default function DeleteToDoListAlert({
-  id,
+  toDoList,
   handleDelete,
 }: DeleteToDoListAlertProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
 
   async function onContinue() {
-    const result = await apiDeleteToDoList({ data: { id: id } });
+    const result = await apiDeleteToDoList({ data: { id: toDoList.id } });
 
     if (result.status === "success") {
       const { deleteToDoList } = (result as ToDoListDeleteResponse).data;
@@ -65,8 +65,12 @@ export default function DeleteToDoListAlert({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete this to
-            do list and remove its data from our servers.
+            {`This action cannot be undone. This will permanently delete "${
+              toDoList.title.length > 70
+                ? toDoList.title.slice(0, 70) + "..."
+                : toDoList.title
+            }" to
+            do list and remove its data from our servers.`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

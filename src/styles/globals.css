@@ -82,5 +82,5 @@
 }
 
 .page-title {
-  @apply text-3xl font-bold mb-12;
+  @apply text-3xl font-bold mb-2 lg:mb-12;
 }

@@ -24,10 +24,10 @@ function ToDoListCard({
 }: ToDoListCardProps) {
   return (
     <Card className="w-full hover:bg-secondary">
-      <div className="flex flex-row items-center py-2 pl-4 pr-2">
+      <div className="flex flex-col items-start py-2 pl-4 pr-2 lg:items-center lg:flex-row">
         <Link
           href={`/todos/${toDoList.id}`}
-          className="flex flex-row justify-between pr-4 grow"
+          className="flex flex-row justify-between w-full mb-4 lg:pr-4 lg:mb-0 grow"
         >
           <div>
             {toDoList.title.length > 70
@@ -41,7 +41,10 @@ function ToDoListCard({
             toDoList={toDoList}
             handleUpdate={updateToDoList}
           />
-          <DeleteToDoListAlert id={toDoList.id} handleDelete={removeToDoList} />
+          <DeleteToDoListAlert
+            toDoList={toDoList}
+            handleDelete={removeToDoList}
+          />
         </div>
       </div>
     </Card>

@@ -62,6 +62,7 @@ export function CreateToDoListDialog({
         } has been succesfully created.`,
       });
       handleCreate((result as ToDoListCreateResponse).data.toDoList);
+      form.reset();
       setOpen(false);
     } else {
       toast({
