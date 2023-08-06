@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
         title: data.title,
         userId: userId,
       },
+      include: { items: true },
     });
 
     return new NextResponse(
