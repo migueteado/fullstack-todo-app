@@ -28,7 +28,7 @@ import { Pencil } from "lucide-react";
 import { apiUpdateToDoList } from "@/lib/api";
 import {
   ErrorResponse,
-  ToDoListCreateResponse,
+  ToDoListUpdateResponse,
   ToDoListObject,
 } from "@/lib/types";
 import { useState } from "react";
@@ -63,12 +63,12 @@ export default function UpdateToDoListDialog({
       toast({
         title: "To Do List updated!",
         description: `To Do List with title ${
-          (result as ToDoListCreateResponse).data.toDoList.title
+          (result as ToDoListUpdateResponse).data.toDoList.title
         } has been succesfully updated.`,
       });
       handleUpdate(
         toDoList.id,
-        (result as ToDoListCreateResponse).data.toDoList
+        (result as ToDoListUpdateResponse).data.toDoList
       );
       setOpen(false);
     } else {
@@ -82,7 +82,7 @@ export default function UpdateToDoListDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="ghost" size="icon">
           <Pencil className="w-4 h-4" />
         </Button>
       </DialogTrigger>

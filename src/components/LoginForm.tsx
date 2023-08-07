@@ -52,7 +52,7 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="email"
@@ -78,18 +78,17 @@ export function LoginForm() {
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
-              <FormDescription>
-                Passwords must be at least 8 and less than 32 characters.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-end w-full gap-4">
-          <Link href="/auth/register" className="text-sm">
+        <div className="flex flex-col items-center justify-end w-full gap-4 pt-2">
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+          <Link href="/auth/register" className="text-sm underline">
             Don&apos;t have an account? Register
           </Link>
-          <Button type="submit">Login</Button>
         </div>
       </form>
     </Form>

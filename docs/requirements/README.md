@@ -60,11 +60,11 @@
 | Sign In                    | ✅      | ❌           | ✅       | ❌            |
 | Sign Out                   | ✅      | ❌           | ✅       | ❌            |
 | Read To Do List (Many)     | ✅      | ❌           | ✅       | ❌            |
-| Read To Do List (Single)   | ✅      | ❌           | ❌       | ❌            |
+| Read To Do List (Single)   | ✅      | ❌           | ✅       | ❌            |
 | Create To Do List          | ✅      | ❌           | ✅       | ❌            |
 | Update To Do List          | ✅      | ❌           | ✅       | ❌            |
 | Delete To Do List          | ✅      | ❌           | ✅       | ❌            |
-| Read To Do List with Items | ✅      | ❌           | ❌       | ❌            |
-| Create To Do Item          | ✅      | ❌           | ❌       | ❌            |
-| Update To Do Item          | ✅      | ❌           | ❌       | ❌            |
-| Delete To Do Item          | ✅      | ❌           | ❌       | ❌            |
+| Read To Do List with Items | ✅      | ❌           | ✅       | ❌            |
+| Create To Do Item          | ✅      | ❌           | ✅       | ❌            |
+| Update To Do Item          | ✅      | ❌           | ✅       | ❌            |
+| Delete To Do Item          | ✅      | ❌           | ✅       | ❌            |

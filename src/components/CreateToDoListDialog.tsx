@@ -75,7 +75,7 @@ export function CreateToDoListDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button size="icon">
           <Plus className="w-4 h-4" />
         </Button>
       </DialogTrigger>

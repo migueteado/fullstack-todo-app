@@ -24,7 +24,7 @@ function ToDoListCard({
 }: ToDoListCardProps) {
   return (
     <Card className="w-full hover:bg-secondary">
-      <div className="flex flex-col items-start py-2 pl-4 pr-2 lg:items-center lg:flex-row">
+      <div className="flex flex-col items-start px-4 py-2 lg:items-center lg:flex-row">
         <Link
           href={`/todos/${toDoList.id}`}
           className="flex flex-row justify-between w-full mb-4 lg:pr-4 lg:mb-0 grow"
@@ -57,7 +57,6 @@ interface ToDoListListProps {
 
 export default function ToDoListList({ toDoLists }: ToDoListListProps) {
   const [todos, setTodos] = useState<ToDoListObject[]>(toDoLists);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const addToDoList = (toDoList: ToDoListObject) => {
     setTodos([...todos, toDoList]);
@@ -86,9 +85,6 @@ export default function ToDoListList({ toDoLists }: ToDoListListProps) {
       </div>
       <Separator />
       <div className="flex flex-col items-center justify-center gap-2 py-2">
-        {errorMessage && (
-          <AlertMessage type="error" title="Error" message={errorMessage} />
-        )}
         {todos && todos.length > 0 ? (
           todos.map((toDoList) => (
             <ToDoListCard

@@ -11,7 +11,10 @@ import { handleResponse } from "./handleResponse";
 import { handleError } from "./handleError";
 
 interface ApiCreateToDoItemArgs extends RequiresAuth {
-  data: Omit<ToDoItem, "id" | "createdAt" | "updatedAt">;
+  data: Omit<
+    ToDoItem,
+    "id" | "createdAt" | "updatedAt" | "completed" | "dueDate"
+  >;
 }
 
 export async function apiCreateToDoItem({

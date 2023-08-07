@@ -77,10 +77,14 @@
   }
 }
 
-.container {
-  @apply min-h-screen max-w-4xl px-2 pt-24 pb-24 md:px-8 lg:px-12 flex flex-col items-center;
+.main-container {
+  @apply min-h-screen flex flex-col;
+}
+
+.form-title {
+  @apply text-2xl font-bold mb-4;
 }
 
 .page-title {
-  @apply text-3xl font-bold mb-2 lg:mb-12;
+  @apply text-4xl font-bold mb-8;
 }

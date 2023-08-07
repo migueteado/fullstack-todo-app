@@ -1,3 +1,4 @@
+import { Priority } from "@prisma/client";
 import { z } from "zod";
 
 export const CreateToDoItemSchema = z.object({
@@ -6,15 +7,11 @@ export const CreateToDoItemSchema = z.object({
       required_error: "Content is required",
     })
     .min(3, "Content is required"),
-  priority: z.string({
-    invalid_type_error: "Priority must be a string",
-  }),
+  priority: z.nativeEnum(Priority),
   listId: z.string({
     required_error: "listId is required",
   }),
-  dueDate: z
-    .string()
-    .datetime({ message: "Invalid datetime string! Must be UTC." }),
+  dueDate: z.coerce.date().optional().nullable(),
 });
 
 export const UpdateToDoItemSchema = z.object({
@@ -29,15 +26,11 @@ export const UpdateToDoItemSchema = z.object({
   completed: z.boolean({
     invalid_type_error: "Content must be a boolean",
   }),
-  priority: z.string({
-    invalid_type_error: "Priority must be a string",
-  }),
+  priority: z.nativeEnum(Priority),
   listId: z.string({
     required_error: "listId is required",
   }),
-  dueDate: z
-    .string()
-    .datetime({ message: "Invalid datetime string! Must be UTC." }),
+  dueDate: z.coerce.date().optional().nullable(),
 });
 
 export const DeleteToDoItemSchema = z.object({

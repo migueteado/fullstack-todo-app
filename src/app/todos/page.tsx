@@ -13,8 +13,8 @@ export default async function Todos() {
   return (
     <>
       <Header />
-      <main className="container">
-        <div className="w-full max-w-4xl">
+      <main className="container pt-24">
+        <div className="w-full max-w-4xl mx-auto">
           <h1 className="page-title">ToDo Lists</h1>
           {res.status === "success" ? (
             <ToDoLists

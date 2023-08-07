@@ -60,7 +60,7 @@ export function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="email"
@@ -107,11 +107,13 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <div className="flex items-center justify-end w-full gap-4">
+        <div className="flex flex-col items-center justify-end w-full gap-4 pt-2">
+          <Button type="submit" className="w-full">
+            Register
+          </Button>
           <Link href="/auth/login" className="text-sm">
             Already have an account? Log in
           </Link>
-          <Button type="submit">Submit</Button>
         </div>
       </form>
     </Form>

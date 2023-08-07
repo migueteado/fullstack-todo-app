@@ -15,36 +15,38 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
-import { ToDoList } from "@prisma/client";
-import { apiDeleteToDoList } from "@/lib/api";
-import { ErrorResponse, ToDoListDeleteResponse } from "@/lib/types";
+import { ToDoItem } from "@prisma/client";
+import { apiDeleteToDoItem } from "@/lib/api";
+import { ErrorResponse, ToDoItemDeleteResponse } from "@/lib/types";
 
-interface DeleteToDoListAlertProps {
-  toDoList: ToDoList;
-  handleDelete: (id: ToDoList["id"]) => void;
+interface DeleteToDoItemAlertProps {
+  toDoItem: ToDoItem;
+  handleDelete: (id: ToDoItem["id"]) => void;
 }
 
-export default function DeleteToDoListAlert({
-  toDoList,
+export default function DeleteToDoItemAlert({
+  toDoItem,
   handleDelete,
-}: DeleteToDoListAlertProps) {
+}: DeleteToDoItemAlertProps) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
 
   async function onContinue() {
-    const result = await apiDeleteToDoList({ data: { id: toDoList.id } });
+    const result = await apiDeleteToDoItem({
+      data: { id: toDoItem.id, listId: toDoItem.listId },
+    });
 
     if (result.status === "success") {
-      const { deleteToDoList } = (result as ToDoListDeleteResponse).data;
+      const { deleteToDoItem } = (result as ToDoItemDeleteResponse).data;
       toast({
-        title: "To Do List deleted!",
-        description: `To Do List with title ${
-          deleteToDoList.title.length > 70
-            ? deleteToDoList.title.slice(0, 70) + "..."
-            : deleteToDoList.title
+        title: "To Do Item deleted!",
+        description: `To Do Item with content ${
+          deleteToDoItem.content.length > 70
+            ? deleteToDoItem.content.slice(0, 70) + "..."
+            : deleteToDoItem.content
         } has been succesfully deleted.`,
       });
-      handleDelete(deleteToDoList.id);
+      handleDelete(deleteToDoItem.id);
       setOpen(false);
     } else {
       toast({
@@ -66,11 +68,11 @@ export default function DeleteToDoListAlert({
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             {`This action cannot be undone. This will permanently delete "${
-              toDoList.title.length > 70
-                ? toDoList.title.slice(0, 70) + "..."
-                : toDoList.title
+              toDoItem.content.length > 70
+                ? toDoItem.content.slice(0, 70) + "..."
+                : toDoItem.content
             }" to
-            do list and remove its data from our servers.`}
+            do item and remove its data from our servers.`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
