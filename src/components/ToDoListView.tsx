@@ -18,6 +18,8 @@ import { Checkbox } from "./ui/checkbox";
 import { apiUpdateToDoItem } from "@/lib/api";
 import { useToast } from "./ui/use-toast";
 import { sortByCompletion, sortByPriority } from "@/lib/helpers/sortToDoItems";
+import { Toggle } from "./ui/toggle";
+import { Progress } from "./ui/progress";
 
 interface PriorityIndicatorProps {
   priority: Priority;
@@ -128,28 +130,41 @@ export default function ToDoListView({ toDoList }: ToDoListProps) {
   const [toDoItems, setToDoItems] = useState<ToDoItem[]>(
     currentToDoList.items.sort(sortByPriority)
   );
+  const [completed, setCompleted] = useState<number>(
+    toDoItems.filter((toDoItem) => toDoItem.completed).length
+  );
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const toggleShowCompleted = (pressed: boolean) => {
+    setShowCompleted(pressed);
+  };
+
   const addToDoItem = (toDoItem: ToDoItem) => {
-    setToDoItems([...toDoItems, toDoItem].sort(sortByPriority));
+    const newToDoItems = [...toDoItems, toDoItem].sort(sortByPriority);
+    setToDoItems(newToDoItems);
+    setCompleted(newToDoItems.filter((toDoItem) => toDoItem.completed).length);
   };
 
   const removeToDoItem = (id: ToDoItem["id"]) => {
-    setToDoItems(
-      toDoItems.filter((toDoItem) => toDoItem.id !== id).sort(sortByPriority)
-    );
+    const newToDoItems = toDoItems
+      .filter((toDoItem) => toDoItem.id !== id)
+      .sort(sortByPriority);
+    setToDoItems(newToDoItems);
+    setCompleted(newToDoItems.filter((toDoItem) => toDoItem.completed).length);
   };
 
   const updateToDoItem = (id: ToDoItem["id"], set: Omit<ToDoItem, "id">) => {
-    setToDoItems(
-      toDoItems
-        .map((toDoItem) => {
-          if (toDoItem.id === id) {
-            return { ...toDoItem, ...set };
-          } else {
-            return toDoItem;
-          }
-        })
-        .sort(sortByPriority)
-    );
+    const newToDoItems = toDoItems
+      .map((toDoItem) => {
+        if (toDoItem.id === id) {
+          return { ...toDoItem, ...set };
+        } else {
+          return toDoItem;
+        }
+      })
+      .sort(sortByPriority);
+    setToDoItems(newToDoItems);
+    setCompleted(newToDoItems.filter((toDoItem) => toDoItem.completed).length);
   };
 
   const updateToDoList = (id: ToDoList["id"], set: Partial<ToDoList>) => {
@@ -165,23 +180,43 @@ export default function ToDoListView({ toDoList }: ToDoListProps) {
           handleUpdate={updateToDoList}
         />
       </div>
-      <div className="flex justify-end py-2">
-        <CreateToDoItemDialog
-          listId={currentToDoList.id}
-          handleCreate={addToDoItem}
-        />
+      <div className="flex items-center justify-between py-2">
+        <div className="ml-0 mr-auto text-sm text-slate-500">
+          ({completed} / {toDoItems.length}){" "}
+          {(completed / toDoItems.length) * 100}% completed
+        </div>
+        <div className="flex justify-end gap-2 ml-auto mr-0">
+          <Toggle
+            defaultPressed={showCompleted}
+            pressed={showCompleted}
+            onPressedChange={toggleShowCompleted}
+          >
+            Show Completed
+          </Toggle>
+          <CreateToDoItemDialog
+            listId={currentToDoList.id}
+            handleCreate={addToDoItem}
+          />
+        </div>
       </div>
+      <Separator />
+      <div className="py-2">
+        <Progress value={(completed / toDoItems.length) * 100} />
+      </div>
+
       <Separator />
       <div className="flex flex-col items-center justify-center gap-2 py-2">
         {toDoItems && toDoItems.length > 0 ? (
-          toDoItems.map((toDoItem) => (
-            <ToDoItemCard
-              toDoItem={toDoItem}
-              key={currentToDoList.id}
-              removeToDoItem={removeToDoItem}
-              updateToDoItem={updateToDoItem}
-            />
-          ))
+          toDoItems
+            .filter((toDoItem) => (showCompleted ? true : !toDoItem.completed))
+            .map((toDoItem) => (
+              <ToDoItemCard
+                toDoItem={toDoItem}
+                key={currentToDoList.id}
+                removeToDoItem={removeToDoItem}
+                updateToDoItem={updateToDoItem}
+              />
+            ))
         ) : (
           <p>Start by creating your first to do item.</p>
         )}
