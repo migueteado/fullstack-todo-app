@@ -5,7 +5,7 @@ import useSession from "@/lib/hooks/useSession";
 import useStore from "@/store";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { Eraser, LogOut, Menu } from "lucide-react";
+import { Eraser, LogIn, LogOut, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,6 +28,7 @@ import {
 import { useToast } from "./ui/use-toast";
 import { useState } from "react";
 import { ErrorResponse, UserDeleteResponse } from "@/lib/types";
+import Link from "next/link";
 
 export function Header() {
   const store = useStore();
@@ -72,7 +73,7 @@ export function Header() {
       <div className="flex flex-row items-center h-12 px-4 mx-auto lg:px-12">
         <div className="text-lg font-bold">ToDo App</div>
         <div className="ml-auto mr-0">
-          {user && (
+          {user ? (
             <AlertDialog open={open} onOpenChange={setOpen}>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -119,6 +120,12 @@ export function Header() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+          ) : (
+            <Link href="/auth/login">
+              <Button variant="outline" size="icon">
+                <LogIn className="w-4 h-4" />
+              </Button>
+            </Link>
           )}
         </div>
       </div>

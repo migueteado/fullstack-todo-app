@@ -82,6 +82,7 @@ export async function POST(
         content: data.content,
         completed: false,
         listId: data.listId,
+        dueDate: data.dueDate,
         priority,
       },
     });

@@ -42,6 +42,7 @@ export function LoginForm() {
     if (result.status === "success") {
       store.setToken((result as UserLoginResponse).token);
       router.push("/todos");
+      router.refresh();
     } else {
       toast({
         title: "An error occured!",

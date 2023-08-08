@@ -9,9 +9,9 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { Metadata } from "next";
 
-type Props = {
+interface Props {
   params: { id: ToDoList["id"] };
-};
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cookieStore = cookies();
@@ -19,7 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const res = await apiGetToDoList({ token: token, data: { id: params.id } });
 
   return {
-    title: (res as ToDoListResponse).data.toDoList.title,
+    title:
+      res.status === "success"
+        ? (res as ToDoListResponse).data.toDoList.title
+        : "To Do List",
   };
 }
 

@@ -46,6 +46,7 @@ export function RegisterForm() {
         } has been succesfully created.`,
       });
       router.push("/auth/login");
+      router.refresh();
     } else {
       toast({
         variant: "destructive",

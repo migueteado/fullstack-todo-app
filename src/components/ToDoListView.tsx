@@ -21,6 +21,23 @@ import { sortByCompletion, sortByPriority } from "@/lib/helpers/sortToDoItems";
 import { Toggle } from "./ui/toggle";
 import { Progress } from "./ui/progress";
 
+interface DueDateProps {
+  dueDate: ToDoItem["dueDate"];
+}
+
+function DueDate({ dueDate }: DueDateProps) {
+  return (
+    <div>
+      {dueDate ? (
+        <div className="text-xs text-slate-400">
+          {new Date(dueDate).toLocaleDateString()}
+        </div>
+      ) : (
+        <div className="text-xs text-slate-400">No due date</div>
+      )}
+    </div>
+  );
+}
 interface PriorityIndicatorProps {
   priority: Priority;
 }
@@ -100,9 +117,12 @@ function ToDoItemCard({
           )}
           <PriorityIndicator priority={toDoItem.priority} />
           <div
-            className={toDoItem.completed ? "line-through text-slate-400" : ""}
+            className={`flex flex-col ${
+              toDoItem.completed ? "line-through text-slate-400" : ""
+            }`}
           >
             {toDoItem.content}
+            <DueDate dueDate={toDoItem.dueDate} />
           </div>
         </div>
         <div className="grid items-center grid-cols-2 gap-2 ml-auto mr-0">
@@ -180,10 +200,10 @@ export default function ToDoListView({ toDoList }: ToDoListProps) {
           handleUpdate={updateToDoList}
         />
       </div>
-      <div className="flex items-center justify-between py-2">
-        <div className="ml-0 mr-auto text-sm text-slate-500">
+      <div className="flex flex-col items-center justify-between py-2 lg:flex-row">
+        <div className="mb-2 ml-auto mr-0 text-sm lg:ml-0 lg:mr-auto text-slate-500 lg:mb-0">
           ({completed} / {toDoItems.length}){" "}
-          {(completed / toDoItems.length) * 100}% completed
+          {((completed / toDoItems.length) * 100).toFixed(2)}% completed
         </div>
         <div className="flex justify-end gap-2 ml-auto mr-0">
           <Toggle

@@ -34,7 +34,10 @@ function ToDoListCard({
               ? toDoList.title.slice(0, 70) + "..."
               : toDoList.title}
           </div>
-          <div className="text-slate-400">({toDoList.items.length})</div>
+          <div className="text-slate-400">
+            ({toDoList.items.filter((i) => i.completed).length} /{" "}
+            {toDoList.items.length})
+          </div>
         </Link>
         <div className="grid items-center grid-cols-2 gap-2 ml-auto mr-0">
           <UpdateToDoListDialog

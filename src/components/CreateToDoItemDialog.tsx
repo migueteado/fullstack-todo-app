@@ -81,7 +81,11 @@ export default function CreateToDoItemDialog({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await apiCreateToDoItem({ data: values });
+    let dueDate = null;
+    if (values.dueDate) {
+      dueDate = new Date(values.dueDate);
+    }
+    const result = await apiCreateToDoItem({ data: { ...values, dueDate } });
 
     if (result.status === "success") {
       toast({
