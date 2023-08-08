@@ -50,6 +50,7 @@ export default function DeleteToDoItemAlert({
       setOpen(false);
     } else {
       toast({
+        variant: "destructive",
         title: "An error occured!",
         description: (result as ErrorResponse).message,
       });

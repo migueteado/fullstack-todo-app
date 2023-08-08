@@ -48,14 +48,11 @@ export function RegisterForm() {
       router.push("/auth/login");
     } else {
       toast({
+        variant: "destructive",
         title: "An error occured!",
         description: (result as ErrorResponse).message,
       });
     }
-  }
-
-  function redirectToLogin() {
-    router.push("/auth/login");
   }
 
   return (

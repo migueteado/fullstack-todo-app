@@ -45,6 +45,7 @@ export default function DeleteUserAlert() {
       router.push("/");
     } else {
       toast({
+        variant: "destructive",
         title: "An error occured!",
         description: (result as ErrorResponse).message,
       });
