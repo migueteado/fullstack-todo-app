@@ -3,7 +3,13 @@ import { Header } from "@/components/Header";
 import ToDoLists from "@/components/ToDoListList";
 import { apiGetToDoLists } from "@/lib/api";
 import { ErrorResponse, ToDoListManyResponse } from "@/lib/types";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
+
+export const metadata: Metadata = {
+  title: "ToDos - ToDoApp",
+  description: "Free your memory and get things done.",
+};
 
 export default async function Todos() {
   const cookieStore = cookies();

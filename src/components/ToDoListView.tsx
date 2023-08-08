@@ -125,24 +125,30 @@ interface ToDoListProps {
 export default function ToDoListView({ toDoList }: ToDoListProps) {
   const [currentToDoList, setCurrentToDoList] =
     useState<ToDoListObject>(toDoList);
-  const [toDoItems, setToDoItems] = useState<ToDoItem[]>(currentToDoList.items);
+  const [toDoItems, setToDoItems] = useState<ToDoItem[]>(
+    currentToDoList.items.sort(sortByPriority)
+  );
   const addToDoItem = (toDoItem: ToDoItem) => {
-    setToDoItems([...toDoItems, toDoItem]);
+    setToDoItems([...toDoItems, toDoItem].sort(sortByPriority));
   };
 
   const removeToDoItem = (id: ToDoItem["id"]) => {
-    setToDoItems(toDoItems.filter((toDoItem) => toDoItem.id !== id));
+    setToDoItems(
+      toDoItems.filter((toDoItem) => toDoItem.id !== id).sort(sortByPriority)
+    );
   };
 
   const updateToDoItem = (id: ToDoItem["id"], set: Omit<ToDoItem, "id">) => {
     setToDoItems(
-      toDoItems.map((toDoItem) => {
-        if (toDoItem.id === id) {
-          return { ...toDoItem, ...set };
-        } else {
-          return toDoItem;
-        }
-      })
+      toDoItems
+        .map((toDoItem) => {
+          if (toDoItem.id === id) {
+            return { ...toDoItem, ...set };
+          } else {
+            return toDoItem;
+          }
+        })
+        .sort(sortByPriority)
     );
   };
 
@@ -168,17 +174,14 @@ export default function ToDoListView({ toDoList }: ToDoListProps) {
       <Separator />
       <div className="flex flex-col items-center justify-center gap-2 py-2">
         {toDoItems && toDoItems.length > 0 ? (
-          toDoItems
-            .sort(sortByPriority)
-            .sort(sortByCompletion)
-            .map((toDoItem) => (
-              <ToDoItemCard
-                toDoItem={toDoItem}
-                key={currentToDoList.id}
-                removeToDoItem={removeToDoItem}
-                updateToDoItem={updateToDoItem}
-              />
-            ))
+          toDoItems.map((toDoItem) => (
+            <ToDoItemCard
+              toDoItem={toDoItem}
+              key={currentToDoList.id}
+              removeToDoItem={removeToDoItem}
+              updateToDoItem={updateToDoItem}
+            />
+          ))
         ) : (
           <p>Start by creating your first to do item.</p>
         )}

@@ -7,12 +7,23 @@ import { cookies } from "next/headers";
 import ToDoListView from "@/components/ToDoListView";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { Metadata } from "next";
 
-export default async function Todo({
-  params,
-}: {
+type Props = {
   params: { id: ToDoList["id"] };
-}) {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+  const res = await apiGetToDoList({ token: token, data: { id: params.id } });
+
+  return {
+    title: (res as ToDoListResponse).data.toDoList.title,
+  };
+}
+
+export default async function Todo({ params }: Props) {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
   const res = await apiGetToDoList({ token: token, data: { id: params.id } });

@@ -8,5 +8,5 @@ export function sortByPriority(a: ToDoItem, b: ToDoItem) {
 }
 
 export function sortByCompletion(a: ToDoItem, b: ToDoItem) {
-  return a.completed === b.completed ? 0 : a ? -1 : 1;
+  return a.completed === b.completed ? 0 : a ? 1 : -1;
 }

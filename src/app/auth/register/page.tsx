@@ -1,5 +1,11 @@
 import MainMessage from "@/components/MainMessage";
 import { RegisterForm } from "@/components/RegisterForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Register - ToDoApp",
+  description: "Free your memory and get things done.",
+};
 
 export default function Register() {
   return (

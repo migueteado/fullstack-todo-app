@@ -1,5 +1,11 @@
 import { LoginForm } from "@/components/LoginForm";
 import MainMessage from "@/components/MainMessage";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login - ToDoApp",
+  description: "Free your memory and get things done.",
+};
 
 export default function Login() {
   return (

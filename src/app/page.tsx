@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "ToDoApp - Home",
+  title: "Home - ToDoApp",
   description: "Free your memory and get things done.",
 };
 
