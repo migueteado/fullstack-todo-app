@@ -31,12 +31,6 @@ services:
       - "6379:6379"
     volumes:
       - ./redis-volume:/data
-  mailer:
-    image: maildev/maildev:latest
-    restart: always
-    ports:
-      - "1080:1080"
-      - "1025:1025"
 volumes:
   db_data:
   pgadmin-data:
