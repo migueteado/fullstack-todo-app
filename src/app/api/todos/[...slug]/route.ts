@@ -1,5 +1,6 @@
 import { getErrorResponse } from "@/lib/helpers";
 import { prisma } from "@/lib/prisma";
+import redis from "@/lib/redis/redis";
 import {
   CreateToDoItemInput,
   CreateToDoItemSchema,
@@ -31,10 +32,26 @@ export async function GET(
     );
   }
 
+  const cachedData = await redis.get(`todo-${userId}-${listId}`);
+
+  if (cachedData) {
+    return NextResponse.json({
+      status: "success",
+      data: { toDoList: JSON.parse(cachedData) },
+    });
+  }
+
   const toDoList = await prisma.toDoList.findUnique({
     where: { id: listId },
     include: { items: true },
   });
+
+  await redis.set(
+    `todo-${userId}-${listId}`,
+    JSON.stringify(toDoList),
+    "EX",
+    60
+  );
 
   return NextResponse.json({
     status: "success",
@@ -86,6 +103,8 @@ export async function POST(
         priority,
       },
     });
+
+    await redis.del(`todo-${userId}-${listId}`);
 
     return new NextResponse(
       JSON.stringify({
@@ -158,6 +177,8 @@ export async function PATCH(
           priority,
         },
       });
+
+      await redis.del(`todo-${userId}-${listId}`);
 
       return new NextResponse(
         JSON.stringify({
@@ -242,6 +263,8 @@ export async function DELETE(
       const deleteToDoList = await prisma.toDoList.delete({
         where: data,
       });
+
+      await redis.del(`todo-${userId}-${listId}`);
 
       return NextResponse.json({
         status: "success",

@@ -1,5 +1,6 @@
 import { getErrorResponse } from "@/lib/helpers";
 import { prisma } from "@/lib/prisma";
+import redis from "@/lib/redis/redis";
 import {
   CreateToDoListInput,
   CreateToDoListSchema,
@@ -17,10 +18,21 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  const cachedData = await redis.get(`todo-${userId}`);
+
+  if (cachedData) {
+    return NextResponse.json({
+      status: "success",
+      data: { toDoLists: JSON.parse(cachedData) },
+    });
+  }
+
   const toDoLists = await prisma.toDoList.findMany({
     where: { userId: userId },
     include: { items: true },
   });
+
+  await redis.set(`todo-${userId}`, JSON.stringify(toDoLists), "EX", 60);
 
   return NextResponse.json({
     status: "success",
@@ -49,6 +61,8 @@ export async function POST(req: NextRequest) {
       },
       include: { items: true },
     });
+
+    await redis.del(`todo-${userId}`);
 
     return new NextResponse(
       JSON.stringify({
