@@ -203,7 +203,10 @@ export default function ToDoListView({ toDoList }: ToDoListProps) {
       <div className="flex flex-col items-center justify-between py-2 lg:flex-row">
         <div className="mb-2 ml-auto mr-0 text-sm lg:ml-0 lg:mr-auto text-slate-500 lg:mb-0">
           ({completed} / {toDoItems.length}){" "}
-          {((completed / toDoItems.length) * 100).toFixed(2)}% completed
+          {toDoItems.length
+            ? ((completed / toDoItems.length) * 100).toFixed(2)
+            : "0.00"}
+          % completed
         </div>
         <div className="flex justify-end gap-2 ml-auto mr-0">
           <Toggle
