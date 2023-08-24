@@ -23,7 +23,7 @@ export default function Home() {
                 <Button className="w-full">Login</Button>
               </Link>
               <p>Otherwise, you should register to use the app.</p>
-              <Link href="/auth/login" className="block w-full">
+              <Link href="/auth/register" className="block w-full">
                 <Button className="w-full" variant="outline">
                   Register
                 </Button>
